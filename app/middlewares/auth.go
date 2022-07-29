@@ -8,25 +8,43 @@ import (
 )
 
 func Auth(ctx *gin.Context) {
-	cookieUser, err := ctx.Request.Cookie("users")
-	if err != nil {
-		ctx.Abort()
+	dataSession, err := cookieParser(ctx)
 
-		if ctx.Request.Method == http.MethodPost && ctx.Request.URL.Path == "/login" {
-			controllers.Post(ctx)
-			return
-		}
-
-		ctx.HTML(200, "login.html", nil)
+	if err {
+		nextWithOutLogin(ctx)
 		return
 	}
 
-	if cookieUser.Value == "frizka" {
+	session := checkSession(dataSession)
+
+	if session {
 		ctx.Next()
 		return
 	}
 
+	nextWithOutLogin(ctx)
+}
+
+func nextWithOutLogin(ctx *gin.Context) {
 	ctx.Abort()
-	ctx.Writer.WriteHeader(http.StatusInternalServerError)
-	ctx.Writer.WriteString("Internal Server Lagi Error")
+	if ctx.Request.Method == http.MethodPost {
+		if ctx.Request.URL.Path == "/login" {
+			controllers.PostLogin(ctx)
+			return
+		}
+
+		if ctx.Request.URL.Path == "/register" {
+			controllers.PostRegister(ctx)
+			return
+		}
+
+		// default
+		ctx.JSON(200, gin.H{
+			"method": "auth",
+			"status": "failed",
+		})
+		return
+	}
+
+	ctx.HTML(200, "login.html", nil)
 }

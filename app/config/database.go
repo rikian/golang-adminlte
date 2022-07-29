@@ -1,6 +1,8 @@
 package config
 
 import (
+	"log"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -8,7 +10,7 @@ import (
 
 var DB *gorm.DB
 
-func ConnectDB() (string, bool) {
+func ConnectDB() error {
 	dsn := "host=" + Host + " user=" + Username + " password=" + Password + " dbname=" + Database + " port=" + Port + " sslmode=disable TimeZone=Asia/Jakarta"
 
 	var err error
@@ -20,22 +22,10 @@ func ConnectDB() (string, bool) {
 	})
 
 	if err != nil {
-		return err.Error(), true
+		return err
 	}
 
-	// for _, model := range models.RegisterModels() {
-	// 	err = DB.Debug().AutoMigrate(model.Model)
+	log.Println("Postgres server listening on port " + Port + "...\n")
 
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// }
-
-	// for i := 0; i < 1000; i++ {
-	// 	seeders.DBSeed(DB)
-	// }
-
-	// log.Println("Migrations successfully ...")
-
-	return "Postgres server listening on port " + Port + "...\n", false
+	return nil
 }
