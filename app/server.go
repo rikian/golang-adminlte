@@ -1,6 +1,7 @@
 package app
 
 import (
+	"golte/app/config"
 	"golte/app/middlewares"
 	"golte/app/routes"
 	"io"
@@ -42,6 +43,10 @@ func SetupRouter() *gin.Engine {
 }
 
 func Run(address string) {
+	db := config.ConnectDB()
+	if db != nil {
+		log.Fatal(db.Error())
+	}
 	router := SetupRouter()
 	err := router.Run(address)
 	if err != nil {
