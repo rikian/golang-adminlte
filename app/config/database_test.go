@@ -3,5 +3,9 @@ package config
 import "testing"
 
 func TestConnectionPostgres(t *testing.T) {
-	ConnectDB()
+	err := ConnectDB()
+	if err != nil {
+		t.Fatal(err.Error())
+		return
+	}
 }

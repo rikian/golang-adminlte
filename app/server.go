@@ -3,6 +3,7 @@ package app
 import (
 	"golte/app/config"
 	"golte/app/middlewares"
+	"golte/app/repository"
 	"golte/app/routes"
 	"io"
 	"log"
@@ -47,6 +48,7 @@ func Run(address string) {
 	if db != nil {
 		log.Fatal(db.Error())
 	}
+	repository.RunMigration(config.DB)
 	router := SetupRouter()
 	err := router.Run(address)
 	if err != nil {
