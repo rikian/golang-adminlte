@@ -25,8 +25,17 @@ func RunMigration(db *gorm.DB) error {
 		if err != nil {
 			log.Println("Migrations Failed...")
 			log.Print(err)
-			return err
+			break
 		}
+	}
+
+	result := db.Create(&user_entity.StatusUser{
+		Id:     1,
+		Status: "admin",
+	})
+
+	if result.Error != nil {
+		log.Print(result.Error.Error())
 	}
 
 	log.Println("Migrations successfully ...")
