@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"crypto"
+	"encoding/hex"
 	"os"
 	"regexp"
 	"time"
@@ -30,4 +32,10 @@ func CheckFile(filename string) error {
 		}
 	}
 	return nil
+}
+
+func SHA256(text string) string {
+	algorithm := crypto.SHA256.New()
+	algorithm.Write([]byte(text))
+	return hex.EncodeToString(algorithm.Sum(nil))
 }

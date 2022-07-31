@@ -65,6 +65,8 @@ btnRegister.addEventListener("click", function() {
         "user_term":regisTerm.checked
     })
 
+    console.log(formRegister)
+
     xml.open("POST", window.location.origin + "/register", true)
     xml.setRequestHeader("content-type", "application/json")
     xml.send(formRegister)
@@ -77,9 +79,9 @@ xml.onload = function() {
         // login
         if (message && message["method"] && message["method"] === "auth" && message["status"] === "ok") return window.location = window.location.origin
         // register
-        // if (message && message["method"] && message["method"] === "auth") {
-        //     console.log(message)
-        // }
+        if (message && message["method"] && message["method"] === "register") {
+            console.log(message)
+        }
     } catch (error) {
         console.log(this.responseText)
         // window.location.reload()

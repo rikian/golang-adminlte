@@ -1,7 +1,7 @@
 package config
 
 // database
-var Host = "dbgolang"
+var Host = "golangdb"
 var Username = "postgres"
 var Password = "rahasia"
 var Database = "go_lte"
