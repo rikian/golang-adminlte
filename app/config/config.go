@@ -1,8 +1,8 @@
 package config
 
 // database
-var Host = ""
-var Username = ""
-var Password = ""
-var Database = ""
-var Port = ""
+var Host = "dbgolang"
+var Username = "postgres"
+var Password = "rahasia"
+var Database = "go_lte"
+var Port = "5432"
